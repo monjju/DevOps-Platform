@@ -1,7 +1,5 @@
-# Mac
 .DS_Store
 
-# Kubernetes secrets (nunca subir secretos reales)
 **/secrets.yaml
 **/secret.yaml
 
