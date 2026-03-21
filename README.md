@@ -1,14 +1,13 @@
 # DevOps Platform — Mi Primer Proyecto de Portfolio
 
-Hola! Soy Juan, un junior DevOps engineer construyendo mi portfolio desde cero.
-Este es mi primer proyecto real — una plataforma Kubernetes completa con
-observabilidad. Lo construí para aprender haciendo, no solo siguiendo tutoriales.
+Hola! Soy Juan Diego, un junior DevOps engineer construyendo mi portfolio desde cero.
+Este es mi primer proyecto real — una plataforma Kubernetes completa con observabilidad.
+Lo construí para aprender haciendo, no solo siguiendo tutoriales.
 
 ## ¿Qué construí?
 
-Una aplicación Python desplegada en Kubernetes con un stack de monitorización
-completo. Todo corre en local usando k3d, pero los mismos manifests funcionan
-en AWS EKS o Google GKE sin cambios.
+Una aplicación Python desplegada en Kubernetes con un stack de monitorización completo.
+Todo corre en local usando k3d, pero los mismos manifests funcionan en AWS EKS sin cambios.
 ```
 Mi Mac
   └── k3d (Kubernetes local)
@@ -35,9 +34,6 @@ Mi Mac
 
 ## Lo que aprendí construyendo esto
 
-Esto no es una lista de tecnologías — son cosas que aprendí resolviendo
-problemas reales durante el desarrollo:
-
 **Kubernetes:**
 - La diferencia entre liveness y readiness probes (y por qué importa)
 - Cómo funciona el load balancing — verifiqué que cada request iba a un pod diferente
@@ -50,13 +46,12 @@ problemas reales durante el desarrollo:
 
 **Observabilidad:**
 - Por qué necesitas métricas, logs Y trazas — cada uno responde una pregunta diferente
-- Cómo conectar Prometheus y Loki a Grafana
-- Resolví un problema real de incompatibilidad de versiones leyendo los logs
+- Resolví un problema real de incompatibilidad de versiones leyendo los logs del pod
 
 **Problemas reales que resolví:**
-- Incompatibilidad entre Grafana 11.x y Loki — lo diagnostiqué en los logs del pod
+- Incompatibilidad entre Grafana 11.x y Loki — diagnosticado leyendo logs del pod
 - Error de credenciales de Docker en Mac — edité el config.json
-- Pods en Terminating stuck — los forcé con --grace-period=0
+- Pods stuck en Terminating — forzados con --grace-period=0
 
 ## Stack
 
@@ -126,15 +121,14 @@ curl http://devops-platform.local/api/info
 
 # Grafana — usuario: admin / contraseña: devops123
 kubectl port-forward svc/prometheus-stack-grafana 3000:80 -n monitoring
-# Abrir http://localhost:3000
 ```
 
 ### Probar el autoscaling
 ```bash
-# Generar carga y ver cómo Kubernetes escala automáticamente
+# Generar carga
 for i in {1..500}; do curl -s http://devops-platform.local/api/stress & done; wait
 
-# En otra terminal, observar el autoscaling en acción
+# Observar autoscaling en tiempo real
 kubectl get hpa -w
 ```
 
@@ -143,16 +137,16 @@ kubectl get hpa -w
 | Endpoint | Descripción |
 |----------|-------------|
 | `/health` | Health check — usado por los probes de Kubernetes |
-| `/api/info` | Info del servidor — muestra el hostname del pod (demuestra load balancing) |
+| `/api/info` | Muestra el hostname del pod — demuestra load balancing |
 | `/api/stress` | Genera carga CPU — activa el autoscaling del HPA |
 
 ## Próximos pasos
 
 - [ ] Proyecto 2: Pipeline CI/CD con GitHub Actions + Trivy + Cosign
 - [ ] Proyecto 3: Infraestructura AWS con Terraform
+- [ ] CKA — Certified Kubernetes Administrator
+
 ---
 
-*Soy Juan Diego, Junior DevOps Engineer en busca de mi primera oportunidad.*
-*[GitHub](https://github.com/monjju)*
-*[LinkedIn](linkedin.com/in/juan-monje-pulecio)*
-*[Email] (Juandieji@gmail.com)*
+*Soy Juan Diego, Junior DevOps Engineer buscando mi primera oportunidad.*
+*[LinkedIn](https://linkedin.com/in/juan-monje-pulecio) · [Email](mailto:Juandieji@gmail.com)*
