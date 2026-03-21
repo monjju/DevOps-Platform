@@ -1,56 +1,110 @@
-# DevOps Platform
+# DevOps Platform — Mi Primer Proyecto de Portfolio
 
-Production-grade Kubernetes platform with full observability stack.
+Hola! Soy Juan, un junior DevOps engineer construyendo mi portfolio desde cero.
+Este es mi primer proyecto real — una plataforma Kubernetes completa con
+observabilidad. Lo construí para aprender haciendo, no solo siguiendo tutoriales.
 
-## Architecture
+## ¿Qué construí?
+
+Una aplicación Python desplegada en Kubernetes con un stack de monitorización
+completo. Todo corre en local usando k3d, pero los mismos manifests funcionan
+en AWS EKS o Google GKE sin cambios.
 ```
-App (Python/Flask)
-  └── Kubernetes (k3d)
-        ├── 3 replicas with HPA
-        ├── Prometheus (metrics)
-        ├── Grafana (dashboards)
-        └── Loki (logs)
+Mi Mac
+  └── k3d (Kubernetes local)
+        ├── App Python/Flask
+        │     └── 3 réplicas con load balancing real
+        ├── HPA — escala automáticamente de 2 a 6 pods según CPU
+        ├── Ingress — acceso por dominio (devops-platform.local)
+        └── Stack de observabilidad
+              ├── Prometheus — recoge métricas cada 15 segundos
+              ├── Grafana — dashboards en tiempo real
+              └── Loki — logs centralizados de todos los pods
 ```
+
+## Screenshots reales del proyecto funcionando
+
+### CPU y autoscaling — Kubernetes creó pods extra bajo carga
+![CPU Dashboard](docs/screenshots/grafana-cpu.png)
+
+### Memoria por pod — métricas reales de cada réplica
+![Memory Dashboard](docs/screenshots/grafana-memory.png)
+
+### Tráfico de red en tiempo real
+![Network Dashboard](docs/screenshots/grafana-network.png)
+
+## Lo que aprendí construyendo esto
+
+Esto no es una lista de tecnologías — son cosas que aprendí resolviendo
+problemas reales durante el desarrollo:
+
+**Kubernetes:**
+- La diferencia entre liveness y readiness probes (y por qué importa)
+- Cómo funciona el load balancing — verifiqué que cada request iba a un pod diferente
+- HPA en acción — generé carga y vi cómo Kubernetes creó pods automáticamente
+- Cómo debuggear un CrashLoopBackOff leyendo logs y exit codes
+
+**Docker:**
+- Por qué correr contenedores como non-root es importante para la seguridad
+- Cómo optimizar capas del Dockerfile para aprovechar el caché
+
+**Observabilidad:**
+- Por qué necesitas métricas, logs Y trazas — cada uno responde una pregunta diferente
+- Cómo conectar Prometheus y Loki a Grafana
+- Resolví un problema real de incompatibilidad de versiones leyendo los logs
+
+**Problemas reales que resolví:**
+- Incompatibilidad entre Grafana 11.x y Loki — lo diagnostiqué en los logs del pod
+- Error de credenciales de Docker en Mac — edité el config.json
+- Pods en Terminating stuck — los forcé con --grace-period=0
 
 ## Stack
 
-- **Container orchestration:** Kubernetes (k3d)
-- **Application:** Python/Flask
-- **Monitoring:** Prometheus + Grafana
-- **Logging:** Loki + Promtail
-- **Package manager:** Helm
+| Herramienta | Para qué la usé |
+|-------------|----------------|
+| Kubernetes (k3d) | Orquestación de contenedores en local |
+| Python + Flask | API con 3 endpoints reales |
+| Helm | Instalar Prometheus, Grafana y Loki |
+| Prometheus | Recoger métricas del cluster |
+| Grafana | Visualizar métricas y logs |
+| Loki + Promtail | Logs centralizados de todos los pods |
+| HPA | Autoscaling basado en CPU |
+| Nginx Ingress | Acceso por nombre de dominio |
 
-## Quick Start
+## Cómo reproducirlo
 
-### Prerequisites
-- Docker Desktop
-- kubectl
-- k3d
-- Helm
-
-### Deploy
+### Requisitos
 ```bash
-# Create cluster
+brew install k3d helm kubectl
+# + Docker Desktop instalado y corriendo
+```
+
+### Despliegue
+```bash
+# 1. Clonar el repo
+git clone https://github.com/monjju/DevOps-Platform
+cd DevOps-Platform
+
+# 2. Crear cluster
 k3d cluster create devops-platform \
   --agents 2 \
   --port "80:80@loadbalancer" \
   --port "443:443@loadbalancer"
 
-# Build and import image
+# 3. Build e import de imagen
 docker build -t devops-platform:v1.0 ./app
 k3d image import devops-platform:v1.0 -c devops-platform
 
-# Deploy app
+# 4. Desplegar app
 kubectl apply -f kubernetes/base/
 
-# Deploy monitoring stack
+# 5. Instalar stack de monitorización
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 
 helm install prometheus-stack prometheus-community/kube-prometheus-stack \
-  --namespace monitoring \
-  --create-namespace \
+  --namespace monitoring --create-namespace \
   --version 45.7.1 \
   --set grafana.adminPassword=devops123
 
@@ -59,30 +113,46 @@ helm install loki grafana/loki-stack \
   --version 2.9.11 \
   --set grafana.enabled=false \
   --set prometheus.enabled=false
+
+# 6. Añadir dominio local
+echo "127.0.0.1 devops-platform.local" | sudo tee -a /etc/hosts
 ```
 
-### Access
+### Acceso
 ```bash
-# App
-kubectl port-forward svc/devops-platform 8080:80
+# Probar la app
+curl http://devops-platform.local/health
+curl http://devops-platform.local/api/info
 
-# Grafana (admin/devops123)
+# Grafana — usuario: admin / contraseña: devops123
 kubectl port-forward svc/prometheus-stack-grafana 3000:80 -n monitoring
+# Abrir http://localhost:3000
 ```
 
-## Endpoints
+### Probar el autoscaling
+```bash
+# Generar carga y ver cómo Kubernetes escala automáticamente
+for i in {1..500}; do curl -s http://devops-platform.local/api/stress & done; wait
 
-| Endpoint | Description |
+# En otra terminal, observar el autoscaling en acción
+kubectl get hpa -w
+```
+
+## API
+
+| Endpoint | Descripción |
 |----------|-------------|
-| `/health` | Health check (used by K8s probes) |
-| `/api/info` | Server info + hostname (shows load balancing) |
-| `/api/stress` | CPU stress test (generates metrics) |
+| `/health` | Health check — usado por los probes de Kubernetes |
+| `/api/info` | Info del servidor — muestra el hostname del pod (demuestra load balancing) |
+| `/api/stress` | Genera carga CPU — activa el autoscaling del HPA |
 
-## What I learned
+## Próximos pasos
 
-- Kubernetes core concepts: Deployments, Services, Probes, Resource limits
-- Helm for package management
-- Prometheus + Grafana for metrics visualization
-- Loki + Promtail for centralized log aggregation
-- Docker multi-stage builds
-- Kubernetes load balancing in action
+- [ ] Proyecto 2: Pipeline CI/CD con GitHub Actions + Trivy + Cosign
+- [ ] Proyecto 3: Infraestructura AWS con Terraform
+---
+
+*Soy Juan Diego, Junior DevOps Engineer en busca de mi primera oportunidad.*
+*[GitHub](https://github.com/monjju)*
+*[LinkedIn](linkedin.com/in/juan-monje-pulecio)*
+*[Email] (Juandieji@gmail.com)*
