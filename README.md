@@ -144,8 +144,6 @@ kubectl get hpa -w
 
 - [ ] Proyecto 2: Pipeline CI/CD con GitHub Actions + Trivy + Cosign
 - [ ] Proyecto 3: Infraestructura AWS con Terraform
-- [ ] CKA — Certified Kubernetes Administrator
-
 ---
 
 *Soy Juan Diego, Junior DevOps Engineer buscando mi primera oportunidad.*
