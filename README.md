@@ -1,4 +1,5 @@
-# DevOps Platform  ![CI/CD Pipeline](https://github.com/monjju/DevOps-Platform/actions/workflows/pipeline.yaml/badge.svg)— Mi Primer Proyecto de Portfolio
+# DevOps Platform — Mi Primer Proyecto de Portfolio
+![CI/CD Pipeline](https://github.com/monjju/DevOps-Platform/actions/workflows/pipeline.yaml/badge.svg)
 
 Hola! Soy Juan Diego, un junior DevOps engineer construyendo mi portfolio desde cero.
 Este es mi primer proyecto real — una plataforma Kubernetes completa con observabilidad.
