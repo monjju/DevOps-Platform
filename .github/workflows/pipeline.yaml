@@ -96,7 +96,7 @@ jobs:
   sign:
     name: Sign Image
     runs-on: ubuntu-latest
-    needs: security
+    needs: [security, build]
     permissions:
       contents: read
       id-token: write
@@ -108,6 +108,6 @@ jobs:
     - name: Sign image
       run: |
         cosign sign --yes \
-          ghcr.io/${{ github.repository }}@${{ needs.build.outputs.digest }}
+          ghcr.io/monjju/devops-platform@${{ needs.build.outputs.digest }}
       env:
         COSIGN_EXPERIMENTAL: 1
