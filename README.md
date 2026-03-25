@@ -130,3 +130,7 @@ graph TB
     N1 --> RDS
     N2 --> RDS
 ```
+
+## Diagrama Visual
+
+![Architecture](Arquitectura.png)
