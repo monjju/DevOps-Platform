@@ -92,3 +92,41 @@ PostgreSQL 14.7 con cifrado, backups automáticos 7 días y acceso restringido a
 
 **Juan Diego Monje** — Junior DevOps Engineer  
 [GitHub](https://github.com/monjju) · [LinkedIn](https://linkedin.com/in/juan-monje-pulecio) · [Portfolio](https://monjju.github.io)
+
+## Diagrama de Arquitectura
+```mermaid
+graph TB
+    subgraph Internet
+        USER[👤 Usuario]
+    end
+
+    subgraph AWS
+        subgraph VPC [VPC 10.0.0.0/16]
+            IGW[🌐 Internet Gateway]
+
+            subgraph Public [Subnets Públicas]
+                LB[⚖️ Load Balancer]
+            end
+
+            subgraph Private [Subnets Privadas]
+                subgraph EKS [EKS Cluster]
+                    N1[Node 1]
+                    N2[Node 2]
+                end
+                RDS[(🗄️ RDS PostgreSQL)]
+            end
+        end
+
+        subgraph Backend [Terraform Backend]
+            S3[🪣 S3 State]
+            DDB[🔒 DynamoDB Lock]
+        end
+    end
+
+    USER -->|HTTPS| IGW
+    IGW --> LB
+    LB --> N1
+    LB --> N2
+    N1 --> RDS
+    N2 --> RDS
+```
