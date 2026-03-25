@@ -1,136 +1,37 @@
-# Proyecto 3 — Terraform Infrastructure as Code
+# DevOps Platform
 
-Infraestructura AWS automatizada con Terraform, simulada con LocalStack.  
-Forma parte del portfolio DevOps de [Juan Diego Monje](https://monjju.github.io).
+Portfolio de proyectos DevOps construidos desde cero.  
+**Juan Diego Monje** — Junior DevOps Engineer en transición desde IT Support.
 
-## Arquitectura
-```
-AWS (LocalStack)
-├── S3 Bucket          → Remote State
-├── DynamoDB           → State Locking
-└── VPC (10.0.0.0/16)
-    ├── Subnet Pública 1  (10.0.1.0/24) → Load Balancer
-    ├── Subnet Pública 2  (10.0.2.0/24) → Load Balancer HA
-    ├── Subnet Privada 1  (10.0.3.0/24) → EKS + RDS
-    └── Subnet Privada 2  (10.0.4.0/24) → EKS + RDS HA
-```
+[Portfolio](https://monjju.github.io) · [LinkedIn](https://linkedin.com/in/juan-monje-pulecio) · [GitHub](https://github.com/monjju)
 
-## Stack Tecnológico
+---
 
-| Herramienta | Versión | Uso |
-|-------------|---------|-----|
-| Terraform | >= 1.5 | IaC |
-| AWS Provider | ~> 5.0 | Cloud Provider |
-| LocalStack | 2026.3 | Simulación AWS local |
+## Proyectos
 
-## Estructura
-```
-proyecto-3-terraform/
-├── modules/
-│   ├── vpc/        → Red privada, subnets, routing
-│   ├── eks/        → Kubernetes gestionado
-│   └── rds/        → PostgreSQL gestionado
-└── environments/
-    └── dev/
-        ├── main.tf       → Orquesta los módulos
-        ├── backend.tf    → Remote state en S3
-        └── provider.tf   → AWS provider
-```
+### ☸️ Proyecto 1 — Kubernetes Platform
+Plataforma cloud-native con app Python/Flask, 3 réplicas, HPA autoscaling, Ingress y observabilidad completa (Prometheus + Grafana + Loki).  
+**Stack:** Kubernetes, Docker, Helm, Prometheus, Grafana, Loki  
+[→ Ver proyecto](./proyecto-1-kubernetes)
 
-## Decisiones de Seguridad
+### 🛡️ Proyecto 2 — CI/CD Pipeline DevSecOps
+Pipeline de 4 stages con GitHub Actions: validate, build Docker multi-stage, security scan (Trivy + Gitleaks) y firma de imagen con Cosign.  
+**Stack:** GitHub Actions, Docker, Trivy, Gitleaks, Cosign  
+[→ Ver proyecto](./proyecto-2-cicd)
 
-- ✅ EKS endpoint privado — nunca expuesto a internet
-- ✅ RDS en subnets privadas — solo accesible desde la VPC
-- ✅ Storage encryption habilitado en RDS
-- ✅ Security Groups con mínimo privilegio
-- ✅ Remote state con locking — seguro para trabajo en equipo
+### ☁️ Proyecto 3 — Terraform + AWS Infrastructure as Code
+Infraestructura AWS con Terraform modular: VPC multi-AZ, EKS cluster, RDS PostgreSQL, IAM roles y remote state en S3 con DynamoDB locking.  
+**Stack:** Terraform, AWS, LocalStack, EKS, VPC, RDS  
+[→ Ver proyecto](./proyecto-3-terraform)
 
-## Prerrequisitos
-```bash
-brew install terraform awscli localstack/tap/localstack-cli
-pip3 install awscli-local --break-system-packages
-```
+---
 
-## Uso
-```bash
-# 1. Arrancar LocalStack
-localstack start -d
+## Stack general
 
-# 2. Crear backend
-awslocal s3 mb s3://terraform-state-dev
-awslocal dynamodb create-table \
-  --table-name terraform-state-lock \
-  --attribute-definitions AttributeName=LockID,AttributeType=S \
-  --key-schema AttributeName=LockID,KeyType=HASH \
-  --billing-mode PAY_PER_REQUEST \
-  --region eu-west-1
-
-# 3. Desplegar
-cd environments/dev
-terraform init
-terraform plan -out=tfplan
-terraform apply tfplan
-
-# 4. Destruir
-terraform destroy
-```
-
-## Módulos
-
-### VPC
-Red privada con subnets públicas y privadas en 2 zonas de disponibilidad.
-Incluye Internet Gateway y Route Tables.
-
-### EKS *(ready for AWS)*
-Cluster Kubernetes con node group autoscalable (min: 1, max: 4).
-Control plane privado, workers en subnets privadas.
-
-### RDS *(ready for AWS)*
-PostgreSQL 14.7 con cifrado, backups automáticos 7 días y acceso restringido a la VPC.
-
-## Autor
-
-**Juan Diego Monje** — Junior DevOps Engineer  
-[GitHub](https://github.com/monjju) · [LinkedIn](https://linkedin.com/in/juan-monje-pulecio) · [Portfolio](https://monjju.github.io)
-
-## Diagrama de Arquitectura
-```mermaid
-graph TB
-    subgraph Internet
-        USER[👤 Usuario]
-    end
-
-    subgraph AWS
-        subgraph VPC [VPC 10.0.0.0/16]
-            IGW[🌐 Internet Gateway]
-
-            subgraph Public [Subnets Públicas]
-                LB[⚖️ Load Balancer]
-            end
-
-            subgraph Private [Subnets Privadas]
-                subgraph EKS [EKS Cluster]
-                    N1[Node 1]
-                    N2[Node 2]
-                end
-                RDS[(🗄️ RDS PostgreSQL)]
-            end
-        end
-
-        subgraph Backend [Terraform Backend]
-            S3[🪣 S3 State]
-            DDB[🔒 DynamoDB Lock]
-        end
-    end
-
-    USER -->|HTTPS| IGW
-    IGW --> LB
-    LB --> N1
-    LB --> N2
-    N1 --> RDS
-    N2 --> RDS
-```
-
-## Diagrama Visual
-
-![Architecture](Arquitectura.png)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat&logo=kubernetes&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=github-actions&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat&logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat&logo=grafana&logoColor=white)
