@@ -48,3 +48,8 @@ Background en IT Support con transición práctica hacia entornos cloud-native. 
 - **Debugging como skill** — resolución de conflictos reales: providers, networking, Git, dependencias
 
 Cada proyecto refleja decisiones técnicas justificadas, trade-offs evaluados y soluciones funcionales.
+
+### 🔄 Proyecto 4 — GitOps con ArgoCD
+Pipeline CI/CD conectado con ArgoCD — cada push a GitHub desencadena build, scan, firma y despliegue automático al cluster. Rollback con un simple `git revert`.  
+**Stack:** ArgoCD, Kustomize, Helm, GitHub Actions, k3d  
+[→ Ver proyecto](./proyecto-4-gitops)
