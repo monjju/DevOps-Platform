@@ -17,4 +17,4 @@ patches:
 
 images:
   - name: ghcr.io/monjju/devops-platform
-    newTag: 945018658f681db2b54b2a5a176fdaae98847644
+    newTag: 69ceca961fdd7cfcb4746d565e0e860b1103b6d7
