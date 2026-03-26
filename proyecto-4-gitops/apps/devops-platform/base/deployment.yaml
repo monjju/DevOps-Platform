@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: devops-platform
-          image: ghcr.io/monjju/devops-platform:latest
+          image: devops-platform:v1.0
+          imagePullPolicy: Never    # usa imagen local, no busca en registry
           ports:
             - containerPort: 5000
           resources:
