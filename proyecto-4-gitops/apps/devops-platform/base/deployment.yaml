@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: devops-platform
-          image: devops-platform:v1.0
+          image: devops-platform:v2.0
           imagePullPolicy: Never    # usa imagen local, no busca en registry
           ports:
             - containerPort: 5000
