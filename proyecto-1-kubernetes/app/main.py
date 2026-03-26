@@ -2,13 +2,11 @@ from flask import Flask, jsonify
 import platform
 import os
 import logging
-
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(levelname)s %(message)s'
 )
 logger = logging.getLogger(__name__)
-
 app = Flask(__name__)
 
 @app.route('/health')
@@ -23,7 +21,7 @@ def info():
         'hostname': platform.node(),
         'python_version': platform.python_version(),
         'environment': os.getenv('ENVIRONMENT', 'local'),
-        'message': 'DevOps Platform funcionando'
+        'message': 'DevOps Platform v2.0 - GitOps deployment ✅'
     })
 
 @app.route('/api/stress')
