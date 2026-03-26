@@ -25,9 +25,10 @@ Infraestructura AWS con Terraform modular: VPC multi-AZ, EKS cluster, RDS Postgr
 [→ Ver proyecto](./proyecto-3-terraform)
 🔄 Proyecto 4 — GitOps con ArgoCD
 
-Pipeline CI/CD conectado con ArgoCD — cada push a GitHub desencadena build, scan, firma y despliegue automático al cluster. Rollback con un simple git revert.
-Stack: ArgoCD, Kustomize, Helm, GitHub Actions, k3d
-→ Ver proyecto
+### 🔄 Proyecto 4 — GitOps con ArgoCD
+Pipeline CI/CD conectado con ArgoCD — cada push a GitHub desencadena build, scan, firma y despliegue automático al cluster. Rollback con un simple `git revert`.  
+**Stack:** ArgoCD, Kustomize, Helm, GitHub Actions, k3d  
+[→ Ver proyecto](./proyecto-4-gitops)
 ---
 
 ## 🛠️ Stack general
