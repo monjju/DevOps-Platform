@@ -10,25 +10,25 @@ Portfolio de proyectos DevOps construidos desde cero, simulando entornos reales 
 ## 🏗️ Proyectos
 
 ### ☸️ Proyecto 1 — Kubernetes Platform
-Plataforma cloud-native con app Python/Flask, 3 réplicas, HPA autoscaling, Ingress y observabilidad completa (Prometheus + Grafana + Loki).  
-**Stack:** Kubernetes, Docker, Helm, Prometheus, Grafana, Loki  
+Plataforma cloud-native con app Python/Flask, 3 réplicas, HPA autoscaling, Ingress y observabilidad completa con Prometheus, Grafana y Loki.  
+**Stack:** Kubernetes · Docker · Helm · Prometheus · Grafana · Loki  
 [→ Ver proyecto](./proyecto-1-kubernetes)
 
 ### 🛡️ Proyecto 2 — CI/CD Pipeline DevSecOps
-Pipeline de 4 stages con GitHub Actions: validate, build Docker multi-stage, security scan (Trivy + Gitleaks) y firma de imagen con Cosign. Todo en verde.  
-**Stack:** GitHub Actions, Docker, Trivy, Gitleaks, Cosign  
+Pipeline de 4 stages con GitHub Actions: validate, build Docker multi-stage, security scan con Trivy y Gitleaks, y firma de imagen con Cosign. Todo en verde.  
+**Stack:** GitHub Actions · Docker · Trivy · Gitleaks · Cosign  
 [→ Ver proyecto](./proyecto-2-cicd)
 
 ### ☁️ Proyecto 3 — Terraform + AWS Infrastructure as Code
-Infraestructura AWS con Terraform modular: VPC multi-AZ, EKS cluster, RDS PostgreSQL, IAM roles y remote state en S3 con DynamoDB locking. Desarrollado con LocalStack.  
-**Stack:** Terraform, AWS, LocalStack, EKS, VPC, RDS  
+Infraestructura AWS con Terraform modular: VPC multi-AZ, EKS cluster, RDS PostgreSQL, IAM roles y remote state en S3 con DynamoDB locking. Desarrollado y validado con LocalStack.  
+**Stack:** Terraform · AWS · LocalStack · EKS · VPC · RDS  
 [→ Ver proyecto](./proyecto-3-terraform)
-🔄 Proyecto 4 — GitOps con ArgoCD
 
 ### 🔄 Proyecto 4 — GitOps con ArgoCD
-Pipeline CI/CD conectado con ArgoCD — cada push a GitHub desencadena build, scan, firma y despliegue automático al cluster. Rollback con un simple `git revert`.  
-**Stack:** ArgoCD, Kustomize, Helm, GitHub Actions, k3d  
+El proyecto que conecta todo lo anterior. Cada push a GitHub desencadena el pipeline completo — build, scan, firma — y ArgoCD despliega automáticamente al cluster sin tocar kubectl. El rollback es un `git revert`.  
+**Stack:** ArgoCD · Kustomize · Helm · GitHub Actions · k3d  
 [→ Ver proyecto](./proyecto-4-gitops)
+
 ---
 
 ## 🛠️ Stack general
@@ -40,16 +40,18 @@ Pipeline CI/CD conectado con ArgoCD — cada push a GitHub desencadena build, sc
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white)
 ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat&logo=prometheus&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat&logo=grafana&logoColor=white)
+![ArgoCD](https://img.shields.io/badge/ArgoCD-EF7B4D?style=flat&logo=argo&logoColor=white)
 
 ---
-## 📖 Lo que he aprendido construyendo este portfolio
 
-Background en IT Support con transición práctica hacia entornos cloud-native. Este portfolio no está basado en tutoriales, sino en resolución de problemas reales y decisiones técnicas implementadas end-to-end.
+## 📖 Lo que he aprendido construyendo esto
 
-- **IaC como estándar** — infraestructura declarativa, versionada y reproducible. Sin cambios manuales no trazables
-- **Control desde el inicio** — correcta gestión del repositorio desde el primer commit: estructura, .gitignore, artefactos
-- **Seguridad por diseño** — arquitecturas privadas (EKS, RDS), IAM con mínimo privilegio, sin exposición innecesaria
-- **Optimización de coste** — uso de LocalStack para simular y validar infraestructura AWS sin impacto económico
-- **Debugging como skill** — resolución de conflictos reales: providers, networking, Git, dependencias
+Vengo de IT Support. Antes de estos proyectos no había tocado Kubernetes, Terraform ni GitOps. Todo lo que ves aquí lo construí resolviendo problemas reales — algunos fáciles, muchos no.
 
-Cada proyecto refleja decisiones técnicas justificadas, trade-offs evaluados y soluciones funcionales.
+- **IaC no es opcional** — infraestructura declarativa, versionada y reproducible. Sin cambios manuales no trazables
+- **El .gitignore va primero** — aprendido después de intentar subir un binario de 648MB a GitHub
+- **Seguridad por diseño** — redes privadas, IAM con mínimo privilegio, scan en el pipeline. No se añade al final
+- **GitOps cambia la forma de pensar** — el cluster es un reflejo de Git, no al revés
+- **Los errores enseñan más** — conflictos de Git, puertos bloqueados, providers incompatibles, ImagePullBackOff. Cada fallo tiene una lección
+
+Soy junior y lo sé. Pero cada proyecto aquí representa un problema real resuelto, una decisión técnica justificada y algo que entiendo de verdad.
