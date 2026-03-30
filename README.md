@@ -55,3 +55,8 @@ Vengo de IT Support. Antes de estos proyectos no había tocado Kubernetes, Terra
 - **Los errores enseñan más** — conflictos de Git, puertos bloqueados, providers incompatibles, ImagePullBackOff. Cada fallo tiene una lección
 
 Soy junior y lo sé. Pero cada proyecto aquí representa un problema real resuelto, una decisión técnica justificada y algo que entiendo de verdad.
+
+### 📊 Proyecto 5 — Observabilidad Avanzada con OpenTelemetry
+Stack completo de observabilidad con los 3 pilares: métricas (Prometheus), logs (Loki) y trazas distribuidas (Tempo). App Flask instrumentada con OpenTelemetry SDK. Correlación entre señales por trace_id.  
+**Stack:** OpenTelemetry · Prometheus · Grafana · Loki · Tempo · Kubernetes  
+[→ Ver proyecto](./proyecto-5-observabilidad)
