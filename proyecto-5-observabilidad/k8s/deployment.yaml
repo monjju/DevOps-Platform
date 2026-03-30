@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-platform
+  namespace: observability
+  labels:
+    app: devops-platform
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-platform
+  template:
+    metadata:
+      labels:
+        app: devops-platform
+    spec:
+      containers:
+        - name: devops-platform
+          image: devops-platform:v3.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ENVIRONMENT
+              value: "dev"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://otel-collector-opentelemetry-collector:4317"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-platform
+  namespace: observability
+spec:
+  selector:
+    app: devops-platform
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP

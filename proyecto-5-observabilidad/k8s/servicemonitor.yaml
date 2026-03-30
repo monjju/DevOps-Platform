@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: devops-platform
+  namespace: observability
+  labels:
+    app: devops-platform
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: devops-platform
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 15s

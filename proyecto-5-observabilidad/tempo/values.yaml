@@ -1,0 +1,12 @@
+tempo:
+  retention: 24h
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+service:
+  type: ClusterIP
+
+serviceMonitor:
+  enabled: true
