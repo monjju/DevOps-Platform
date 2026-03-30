@@ -1,4 +1,4 @@
-# Proyecto 5 — Observabilidad Avanzada con OpenTelemetry
+# Proyecto 5 — Observabilidad con OpenTelemetry
 
 El proyecto que cierra el ciclo. Después de desplegar en Kubernetes, automatizar con CI/CD, provisionar con Terraform y gestionar con GitOps — la pregunta era: ¿cómo sabes que todo funciona?
 
