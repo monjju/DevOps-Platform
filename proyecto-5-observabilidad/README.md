@@ -147,3 +147,25 @@ El health check de Loki falla en Grafana por incompatibilidad entre versiones �
 
 **Juan Diego Monje** — Junior DevOps Engineer  
 [GitHub](https://github.com/monjju) · [LinkedIn](https://linkedin.com/in/juan-monje-pulecio) · [Portfolio](https://monjju.github.io)
+
+---
+
+## Screenshots
+
+### Stack completo — todos los pods Running
+![Pods Running](docs/screenshots/05-pods-running-terminal.png)
+
+### 4 Datasources configurados en Grafana
+![Datasources](docs/screenshots/01-datasources-overview.png)
+
+### Métricas en tiempo real — Prometheus
+![Prometheus Metrics](docs/screenshots/03-prometheus-metrics-graph.png)
+
+### Logs centralizados — Loki
+![Loki Logs](docs/screenshots/02-loki-logs-working.png)
+
+### Trazas distribuidas — Tempo
+![Tempo Traces](docs/screenshots/04-tempo-traces-waterfall.png)
+
+### Health check de la app
+![App Health](docs/screenshots/06-app-health-check.png)
